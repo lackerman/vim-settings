@@ -33,7 +33,23 @@ set hidden                      " change buffers without warnings even when ther
 
 let @f='mzgg=G`z'               " Key-combo to autoformat and return the cursor to your current position
 
-":verbose map <C-o> :NERDTreeToggle<CR>
-":verbose map <C-e> :ls<CR>
+" Copy the vim buffer to the clipboard
+:verbose map @c :w !pbcopy<CR>
+" Toggle the NERDTree panel
+:verbose map <C-_> :NERDTreeToggle<CR>
 
-set updatetime=250
+" Use for git pane to see changes sooner
+set updatetime=500
+
+" Configuration for tmux-navigator
+let g:tmux_navigator_no_mappings = 1
+
+nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
+nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
+nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
+nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
+
+" Required to get vim colours in tmux
+set background=dark
+set t_Co=256
+
