@@ -52,4 +52,3 @@ nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
 " Required to get vim colours in tmux
 set background=dark
 set t_Co=256
-
