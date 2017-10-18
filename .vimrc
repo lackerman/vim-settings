@@ -23,7 +23,7 @@ set smartcase                   " ... unless they contain at least one capital l
 set ls=2                        " always show status bar
 set number                      " show line numbers
 set cursorline                  " display a marker on current line
-color dracula 					" set colorscheme
+color darcula 					" set colorscheme
 
 set completeopt=menuone,longest " simple autocomplete for anything
 set wildmode=list:longest,full  " autocomplete for paths and files
