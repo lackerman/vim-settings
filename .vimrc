@@ -23,7 +23,11 @@ set smartcase                   " ... unless they contain at least one capital l
 set ls=2                        " always show status bar
 set number                      " show line numbers
 set cursorline                  " display a marker on current line
-color darcula 					" set colorscheme
+
+" Get colours working in Terminal
+color Tomorrow-Night-Eighties 	" set colorscheme
+set t_Co=256
+set background=dark
 
 set completeopt=menuone,longest " simple autocomplete for anything
 set wildmode=list:longest,full  " autocomplete for paths and files
@@ -39,7 +43,7 @@ let @f='mzgg=G`z'               " Key-combo to autoformat and return the cursor 
 :verbose map <C-_> :NERDTreeToggle<CR>
 
 " Use for git pane to see changes sooner
-set updatetime=500
+set updatetime=200
 
 " Configuration for tmux-navigator
 let g:tmux_navigator_no_mappings = 1
@@ -48,7 +52,3 @@ nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
 nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
 nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
-
-" Required to get vim colours in tmux
-set background=dark
-set t_Co=256
