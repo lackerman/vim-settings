@@ -25,25 +25,32 @@ set number                      " show line numbers
 set cursorline                  " display a marker on current line
 
 " Get colours working in Terminal
-color Tomorrow-Night-Eighties 	" set colorscheme
+color Tomorrow-Night-Eighties
 set t_Co=256
 set background=dark
 
 set completeopt=menuone,longest " simple autocomplete for anything
 set wildmode=list:longest,full  " autocomplete for paths and files
 set wildignore+=.git            " ignore these extensions on autocomplete
-
 set hidden                      " change buffers without warnings even when there are unsaved changes
-
-let @f='mzgg=G`z'               " Key-combo to autoformat and return the cursor to your current position
-
-" Copy the vim buffer to the clipboard
-:verbose map @c :w !pbcopy<CR>
-" Toggle the NERDTree panel
-:verbose map <C-_> :NERDTreeToggle<CR>
 
 " Use for git pane to see changes sooner
 set updatetime=200
+
+" Key-combo to autoformat and return the cursor to your current position
+let @f='mzgg=G`z'               
+
+" Copy the vim buffer to the clipboard
+:verbose map @c :w !pbcopy<CR>
+
+" Toggle the NERDTree panel
+:verbose map <C-_> :NERDTreeToggle<CR>
+:verbose map <C-b> :GoBuild<CR>
+:verbose map <C-i> :GoDef<CR>
+
+" Tab a selection
+vmap <Tab> >gv
+vmap <S-Tab> <gv
 
 " Configuration for tmux-navigator
 let g:tmux_navigator_no_mappings = 1
@@ -52,3 +59,4 @@ nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
 nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
 nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
+
