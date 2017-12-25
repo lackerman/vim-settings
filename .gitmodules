@@ -4,9 +4,6 @@
 [submodule "bundle/goyo.vim"]
 	path = bundle/goyo.vim
 	url = https://github.com/junegunn/goyo.vim
-[submodule "bundle/mojo.vim"]
-	path = bundle/mojo.vim
-	url = https://github.com/yko/mojo.vim
 [submodule "bundle/vim-airline"]
 	path = bundle/vim-airline
 	url = https://github.com/vim-airline/vim-airline
@@ -25,9 +22,6 @@
 [submodule "bundle/vim-fugitive"]
 	path = bundle/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive.git
-[submodule "bundle/colorschemes"]
-	path = bundle/colorschemes
-	url = https://github.com/flazz/vim-colorschemes.git
 [submodule "bundle/vim-colorschemes"]
 	path = bundle/vim-colorschemes
 	url = https://github.com/flazz/vim-colorschemes.git
