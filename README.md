@@ -9,13 +9,13 @@ git clone --recursive https://github.com/lackerman/vim-settings.git ~/.vim
 Link the `.vimrc` into your home directory
 
 ```
-ln -s $pwd/.vimrc ~/.vimrc
+ln -s $PWD/.vimrc ~/.vimrc
 ```
 
 Link the `.tmux.conf` into your home directory
 
 ```
-ln -s $pwd/.tmux.conf ~/.tmux.conf
+ln -s $PWD/.tmux.conf ~/.tmux.conf
 ```
 
 Execute `:GoInstallBinaries` to install all necessary binaries.
