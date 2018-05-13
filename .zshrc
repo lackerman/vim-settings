@@ -12,14 +12,15 @@ bindkey '\e[1~' beginning-of-line
 bindkey '\e[4~' end-of-line
 
 export GOPATH=$HOME/Documents/golang
-export PATH=$PATH:"$(go env GOPATH)/bin":$HOME/.jenv/bin
+export PATH=$PATH:$HOME/scripts:/usr/local/go/bin:$HOME/.jenv/bin
 
-eval "$(jenv init -)"
+if [[ $(command -v jenv) ]]; then
+	eval "$(jenv init -)"
+fi
 
 function lackerman {
 	cd $GOPATH/src/github.com/lackerman
 }
-
 
 # Docker shorthands
 alias dang='docker rmi $(docker images --quiet --filter "dangling=true")'
