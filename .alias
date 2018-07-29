@@ -1,0 +1,46 @@
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+   alias ls='ls --color=auto'
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+   alias ls='ls -G'
+fi
+
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+export GOPATH=$HOME/Documents/golang
+export PATH=$PATH:"$(go env GOPATH)/bin":$HOME/.jenv/bin
+
+eval "$(jenv init -)"
+
+function lackerman {
+	cd $GOPATH/src/github.com/lackerman
+}
+
+# Docker shorthands
+alias dang='docker rmi $(docker images --quiet --filter "dangling=true")'
+
+alias dim='docker images'
+alias dimr='docker rmi'
+alias dimra='docker rmi $(docker images -q)'
+
+alias dps='docker ps -a'
+alias drm='docker rm'
+alias drma='docker rm $(docker ps -a -q)'
+
+alias dc='docker-compose'
+
+# Git aliases
+alias gs='git status'
+alias gsp='git stash && git pull --rebase && git pop'
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
+
+function pubip {
+	curl https://ipapi.co/$(curl -L http://ipecho.net/plain)/json
+}
+

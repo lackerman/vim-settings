@@ -1,17 +1,13 @@
-#!/bin/zsh
+#!/bin/bash
 
-git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
+wget https://github.com/justjanne/powerline-go/releases/download/v1.11.0/powerline-go-darwin-amd64 -O $HOME/.dotfiles/bin/powerline-go
+chmod +x $HOME/.dotfiles/bin/powerline-go
 
-setopt EXTENDED_GLOB
-for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
-	ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
-done
+if [[ -f $HOME/.profile ]]; then
+	rm $HOME/.profile
+fi
 
-rm -f $HOME/.zshrc
-ln -s $PWD/.zshrc $HOME/.zshrc
-
+ln -s $PWD/.profile $HOME/.profile
 ln -s $PWD/.vim $HOME/.vim
 ln -s $PWD/.vimrc $HOME/.vimrc
 ln -s $PWD/.tmux.conf $HOME/.tmux.conf
-
-chsh -s /bin/zsh
