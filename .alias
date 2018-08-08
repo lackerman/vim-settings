@@ -1,32 +1,31 @@
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
-   alias ls='ls --color=auto'
+    alias ls='ls --color=auto'
+    export GOPATH=
+    export PATH=$PATH:$GOPATH/bin:$HOME/.jenv/bin
 elif [[ "$OSTYPE" == "darwin"* ]]; then
-   alias ls='ls -G'
+    alias ls='ls -G'
+
+    export LC_ALL=en_US.UTF-8
+    export LANG=en_US.UTF-8
+
+    export GOPATH=
+    export PATH=$PATH:$GOPATH/bin:$HOME/.jenv/bin
+
+    eval "$(jenv init -)"
 fi
 
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
-
-export GOPATH=$HOME/Documents/golang
-export PATH=$PATH:"$(go env GOPATH)/bin":$HOME/.jenv/bin
-
-eval "$(jenv init -)"
-
 function lackerman {
-	cd $GOPATH/src/github.com/lackerman
+    cd $GOPATH/src/github.com/lackerman
 }
 
 # Docker shorthands
 alias dang='docker rmi $(docker images --quiet --filter "dangling=true")'
-
 alias dim='docker images'
 alias dimr='docker rmi'
 alias dimra='docker rmi $(docker images -q)'
-
 alias dps='docker ps -a'
 alias drm='docker rm'
 alias drma='docker rm $(docker ps -a -q)'
-
 alias dc='docker-compose'
 
 # Git aliases
