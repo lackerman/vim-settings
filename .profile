@@ -1,10 +1,17 @@
-source $HOME/.dotfiles/.alias
+source $HOME/.dotfiles/.env
 
-function _update_ps1() {
-    PS1="$($HOME/.dotfiles/bin/powerline-go -newline -error $?)"
-}
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+    alias ls='ls --color=auto'
 
-if [ "$TERM" != "linux" ]; then
-    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    alias ls='ls -G'
+
+    export LC_ALL=en_US.UTF-8
+    export LANG=en_US.UTF-8
 fi
 
+export PATH=$PATH:$GOPATH/bin:$HOME/.dotfiles/scripts
+
+source $HOME/.dotfiles/alias
+source $HOME/.dotfiles/autocomplete
+source $HOME/.dotfiles/ps1

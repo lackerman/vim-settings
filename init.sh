@@ -13,10 +13,10 @@ ln -s $dotfiles/.tmux.conf $HOME/.tmux.conf
 
 # Setup the profile file according to the system
 if [[ "$OSTYPE" == "linux"* ]]; then
-	wget -O $dotfiles/bin/powerline-go https://github.com/justjanne/powerline-go/releases/download/v1.11.0/powerline-go-linux-amd64
 	ln -s $dotfiles/.profile $HOME/.bashrc
 elif [[ "$OSTYPE" == "darwin"* ]]; then
-	wget -O $dotfiles/bin/powerline-go https://github.com/justjanne/powerline-go/releases/download/v1.11.0/powerline-go-darwin-amd64
 	ln -s $dotfiles/.profile $HOME/.profile
+	brew install bash-completion
+	brew install kubectx
+	brew install kubernetes-cli
 fi
-chmod +x $dotfiles/bin/powerline-go
