@@ -25,3 +25,9 @@
 [submodule ".vim/bundle/vim-colorschemes"]
 	path = .vim/bundle/vim-colorschemes
 	url = https://github.com/flazz/vim-colorschemes.git
+[submodule "bashmarks"]
+	path = 3rdparty/bashmarks
+	url = https://github.com/huyng/bashmarks.git
+[submodule "iterm2-colors"]
+	path = 3rdparty/iterm2-colors
+	url = https://github.com/mbadolato/iTerm2-Color-Schemes.git
