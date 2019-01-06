@@ -1,8 +1,6 @@
 #!/bin/bash
 
 dotfiles=$HOME/.dotfiles
-mkdir -p $dotfiles/bin
-
 if [[ -f $HOME/.profile ]]; then
 	rm $HOME/.profile
 fi

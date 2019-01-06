@@ -1,3 +1,5 @@
+#!/bin/sh
+
 alias vi=vim
 alias ll='ls -l'
 
@@ -5,8 +7,9 @@ alias ll='ls -l'
 alias whoislistening="lsof -i -n -P | grep LISTEN"
 function ipinfo {
     public_ip="$(curl -sL http://ipecho.net/plain)"
-	curl -s https://ipapi.co/${public_ip}/json | \
-        jq -r '[.ip, .org, .city, .region, .country_name, .country] | @csv'
+	raw_info="$(curl -s https://ipapi.co/$(curl -sL http://ipecho.net/plain)/json | \
+        jq -r '[.ip, .org, .city, .region, .country_name, .country] | @csv')"
+    echo ${raw_info//\"}
 }
 
 # docker utilities
@@ -55,3 +58,9 @@ alias git_submodule_update='git submodule update --recursive'
 
 # Path aliases
 alias lackerman="cd $GOPATH/src/github.com/lackerman"
+
+# NFS setup with Mac
+# https://serverfault.com/questions/716350/mount-nfs-volume-on-ubuntu-linux-server-from-macos-client
+# nfs export edit and restart
+
+alias nfs_reload="sudo vi /etc/exports && sudo exportfs -vra"

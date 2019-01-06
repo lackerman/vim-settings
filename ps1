@@ -1,61 +1,53 @@
+#!/bin/sh
+
 # https://misc.flogisoft.com/bash/tip_colors_and_formatting
-# 256 colors
-dgb='\[\e[48;5;239m\]'      # Dark Grey bg
-dgf='\[\e[38;5;239m\]'      # Dark Grey fg
-lbf='\[\e[38;5;32m\]'       # Light blue fg
+
+# Bold
+bold='\[\e[1m\]'
+
+# 256 Colours
+# > Foreground Colours
+dgfg='\[\e[38;5;239m\]'         # Dark Grey
+lbfg='\[\e[38;5;32m\]'          # Light blue
+ofg='\[\e[38;5;173m\]'          # Orange
+# > Background Colours
+dgbg='\[\e[48;5;239m\]'         # Dark Grey
 
 # Normal colours
+# > Foreground Colours
+wfg='\[\e[97m\]'                # white
+gfg='\[\e[92m\]'                # green
+rfg='\[\e[91m\]'                # red
+# > Background Colours
+rbg='\[\e[41m\]'                # red
 
-bfg_wbg='\[\e[1;34;107m\]'  # blue fg, white bg
-wfg='\[\e[97m\]'            # white fg
-gfg='\[\e[92m\]'            # green fg
-rfg='\[\e[91m\]'            # red fg
-rbg='\[\e[41m\]'            # red bg
+# Normal colours: With fg+bg combined
+bfg_wbg='\[\e[1;34;107m\]'  # fg: blue       bg: white
+dg_w='\[\e[90;107m\]'       # fg: dark grey  bg: white
+r_w='\[\e[31;107m\]'        # fg: red        bg: white
+lg_dg='\[\e[37;100m\]'      # fg: light grey bg: dark grey
+r_dg='\[\e[31;100m\]'       # fg: red        bg: dark grey
 
-dg_w='\[\e[90;107m\]'       # dark grey fg, white bg
-r_w='\[\e[31;107m\]'        # red fg, white bg
-lg_dg='\[\e[37;100m\]'      # light grey, dark grey bg
-r_dg='\[\e[31;100m\]'       # red fg, dark grey bg
-
-end='\[\e[0m\]'             # stop formatting
+# Stop formatting
+end='\[\e[0m\]'             
 
 function context {
-    echo "$bfg_wbg ⎈ \$(kctx) ⎈ $end${wfg}$end"
+    [[ $(kubectl config current-context 2> /dev/null) != "" ]] && echo " ➡ $(kubectl config current-context) ⎈" || echo ""
 }
-function pointer {
-    echo "${gfg}➜$end"
+function uncommitted_changes {
+	[[ "$(git status 2> /dev/null)" =~ working\ tree\ clean ]] && echo "✔" || echo "✘" 
 }
-function cdir {
-    echo "${gfg}\w$end"
-}
-function chost {
-    if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-        echo "${rbg}☞  \h ☜ ${end}${r_w}${end}"
-    else
-        echo "${lg_dg} \h ${end}${dg_w}${end}"
-    fi
-}
-function cuser {
-    echo "${lg_dg} \u${end}"
-}
-function parse_git_dirty {
-	[[ "$(git status 2> /dev/null)" =~ working\ tree\ clean ]] || echo " ✘"
+function git_branch_nicename {
+    echo $(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
 }
 function cbranch {
-	if [[ -d .git ]]; then
-    	branch=$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
-		echo "($branch$(parse_git_dirty))"
-	else
-		echo ""
-	fi
+	[[ -d .git ]] && echo " ($(git_branch_nicename) $(uncommitted_changes))" || echo ""
+}
+function chost {
+    $([ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]) && echo "${rfg}☣ \h ☣${end}" || echo "${dgf} \h ${end}"
 }
 function ctelepresence {
-    if [ -n "$TELEPRESENCE_ROOT" ]; then
-        echo "${rbg}☞ TELEPRESENCE ☜ ${end}${r_dg}${end}"
-    else
-        echo ""
-    fi
+    [ -n "$TELEPRESENCE_ROOT" ] && echo "${rfg}☣ TELEPRESENCE ☣${end}" || echo ""
 }
-# Simple PS1:
-# export PS1="$(pointer) \$ "
-export PS1="$(ctelepresence)$(chost)$(context)\n$(cdir) \$(cbranch) $(pointer) \$ "
+
+export PS1="${ofg}\u@\h${end}${lbfg}${bold}\$(context)${end} [\A] ${bold}${gfg}\W${end}\$(cbranch)${gfg} $ ${end}"
