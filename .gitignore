@@ -1,4 +1,9 @@
+scripts/
+
 .netrwhist
 .env
 
-scripts/
+# IDE files
+.vscode
+*.iml
+.idea/
