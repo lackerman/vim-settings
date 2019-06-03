@@ -7,3 +7,6 @@ scripts/
 .vscode
 *.iml
 .idea/
+
+# Vim plug files
+.vim/plugged
