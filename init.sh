@@ -5,6 +5,7 @@ if [[ -f $HOME/.profile ]]; then
 	rm $HOME/.profile
 fi
 
+ln -s ${DOTFILES}/.zshrc $HOME/.zshrc
 ln -s ${DOTFILES}/.vim $HOME/.vim
 ln -s ${DOTFILES}/.vimrc $HOME/.vimrc
 ln -s ${DOTFILES}/.tmux.conf $HOME/.tmux.conf
