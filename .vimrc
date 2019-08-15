@@ -1,30 +1,39 @@
 " Based on @mislav post http://mislav.uniqpath.com/2011/12/vim-revisited/
-set nocompatible                " choose no compatibility with legacy vi
+set nocompatible
+set encoding=utf-8
+set showcmd " display incomplete commands
 
-"execute pathogen#infect()
 call plug#begin()
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'flazz/vim-colorschemes'
-Plug 'vim-airline/vim-airline'
 Plug 'christoomey/vim-tmux-navigator'
+" Git
 Plug 'tpope/vim-fugitive'
-" On-demand loading
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-" Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
-Plug 'fatih/vim-go', { 'tag': '*' }
+Plug 'airblade/vim-gitgutter'
+
+Plug 'kien/ctrlp.vim'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } " On-demand loading
+Plug 'fatih/vim-go', { 'tag': '*' } " Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
+
+" Typescript plugins
+Plug 'leafgarland/typescript-vim'
+Plug 'Quramy/tsuquyomi'
+Plug 'Quramy/vim-dtsm'
+Plug 'mhartington/vim-typings'
+
+" Style plugins
+Plug 'flazz/vim-colorschemes'
 
 call plug#end()
-
 " Automatically enabled by vim plug
-" syntax enable
-" filetype plugin indent on       " load file type plugins + indentation
+" - syntax enable
+" - filetype plugin indent on
 
-set encoding=utf-8
-set showcmd                     " display incomplete commands
+let g:typescript_indent_disable = 1
+let g:tsuquyomi_completion_detail = 1
 
 "" Whitespace
-"set expandtab                   " use spaces, not tabs (optional)
+"set expandtab                  " use spaces, not tabs (optional)
 set nowrap                      " don't wrap lines
 set tabstop=4 shiftwidth=4      " a tab is two spaces (or set this to 4)
 set backspace=indent,eol,start  " backspace through everything in insert mode
@@ -60,9 +69,11 @@ let @f='mzgg=G`z'
 :verbose map <C-_> :NERDTreeToggle<CR>
 :verbose map <C-b> :GoBuild<CR>
 :verbose map <C-i> :GoDef<CR>
+:verbose map <C-x> "+y
 
-" Open fzf for Ctrl-O
-:verbose map <C-o> :Files<CR>
+:verbose map <C-e> :CtrlPBuffer<CR>
+" Open fzf for Ctrl-F
+:verbose map <C-f> :Files<CR>
 
 " Tab a selection
 vmap <Tab> >gv
@@ -76,3 +87,7 @@ nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
 nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
 
+" Powerline statusbar
+python3 from powerline.vim import setup as powerline_setup
+python3 powerline_setup()
+python3 del powerline_setup
