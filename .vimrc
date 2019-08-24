@@ -15,22 +15,14 @@ Plug 'kien/ctrlp.vim'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } " On-demand loading
 Plug 'fatih/vim-go', { 'tag': '*' } " Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
 
-" Typescript plugins
-Plug 'leafgarland/typescript-vim'
-Plug 'Quramy/tsuquyomi'
-Plug 'Quramy/vim-dtsm'
-Plug 'mhartington/vim-typings'
-
 " Style plugins
 Plug 'flazz/vim-colorschemes'
+Plug 'vim-airline/vim-airline'
 
 call plug#end()
 " Automatically enabled by vim plug
 " - syntax enable
 " - filetype plugin indent on
-
-let g:typescript_indent_disable = 1
-let g:tsuquyomi_completion_detail = 1
 
 "" Whitespace
 "set expandtab                  " use spaces, not tabs (optional)
@@ -86,8 +78,3 @@ nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
 nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
 nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
-
-" Powerline statusbar
-python3 from powerline.vim import setup as powerline_setup
-python3 powerline_setup()
-python3 del powerline_setup
