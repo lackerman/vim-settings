@@ -2,46 +2,34 @@
 
 source $HOME/.dotfiles/.env
 
-if [[ "$OSTYPE" == "linux-gnu" ]]; then
-    alias ls='ls --color=auto'
-
-elif [[ "$OSTYPE" == "darwin"* ]]; then
-    alias ls='ls -G'
-
-    export LC_ALL=en_US.UTF-8
-    export LANG=en_US.UTF-8
-fi
-
-export EDITOR=vi
-
 #####################
-# Helper scripts
+# environment conf
 #####################
 
 export PATH=$PATH:${GOPATH}/bin:$HOME/.dotfiles/scripts
+export EDITOR=vi
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
 
-#####################
-# 3rdparty Tools
-#####################
+[[ "$OSTYPE" == "linux-gnu" ]] && alias ls='ls --color=auto'
+[[ "$OSTYPE" == "darwin"* ]]   && alias ls='ls -G'
 
-source $HOME/.dotfiles/3rdparty/bashmarks/bashmarks.sh
+alias vi=vim
+alias ll='ls -l'
 
-# Setup fzf
-# ---------
+alias python=/usr/local/bin/python3
+alias pip=/usr/local/bin/pip3
+
+eval "$(rbenv init -)"
+
 if [[ ! "$PATH" == */usr/local/opt/fzf/bin* ]]; then
   export PATH="${PATH:+${PATH}:}/usr/local/opt/fzf/bin"
 fi
 
 #####################
-# Aliases
+# network utils
 #####################
 
-alias vi=vim
-alias ll='ls -l'
-alias python=/usr/local/bin/python3
-alias pip=/usr/local/bin/pip3
-
-# Network utilities
 function whoislistening {
     if [[ "$OSTYPE" == "darwin"* ]]; then
         sudo lsof -i -n -P | grep LISTEN
@@ -57,7 +45,10 @@ function ipinfo {
     echo ${raw_info//\"}
 }
 
+#####################
 # docker utilities
+#####################
+
 alias dang='docker rmi $(docker images --quiet --filter "dangling=true")'
 alias dps='docker ps -a'
 alias dk='docker kill'
@@ -69,7 +60,15 @@ function dimrn {
     docker images -a | grep "$1" | awk '{print $3}' | xargs docker rmi -f
 }
 
-# kubernetes utilities
+function docker_gitlab_login {
+    [[ -z "$1" ]] && echo 'provide the TOKEN file as a parameter' && exit 1
+    docker login -u $USER registry.gitlab.com --password-stdin < $1
+}
+
+#####################
+# kubectl utils
+#####################
+
 alias ka='kubectl'
 alias ka='kubectl get all'
 alias kd='kubectl delete'
@@ -95,15 +94,27 @@ function kcontainer_status {
     jq --compact-output '[.status.containerStatuses[], .status.initContainerStatuses[]] | .[] | { name: .name, state: .state | keys | .[], info: .state[].reason }'
 }
 
-# Git aliases
+#####################
+# git aliases & utils
+#####################
+
 alias gs='git status'
-alias gpr='git pull --rebase'
 alias gsp='git add . && git stash && git pull --rebase && git stash pop'
 alias git_ls_commit_files='git diff-tree --no-commit-id --name-only -r'
 alias git_submodule_update='git submodule update --recursive'
 
-# NFS setup with Mac
-# https://serverfault.com/questions/716350/mount-nfs-volume-on-ubuntu-linux-server-from-macos-client
-# nfs export edit and restart
+#####################
+# mac nfs setup
+#####################
 
-alias nfs_reload="sudo vi /etc/exports && sudo exportfs -vra"
+# https://serverfault.com/questions/716350/mount-nfs-volume-on-ubuntu-linux-server-from-macos-client
+
+[[ "$OSTYPE" == "darwin"* ]] && alias nfs_reload="sudo vi /etc/exports && sudo exportfs -vra"
+
+#####################
+# general utils
+#####################
+
+function dirdiff {
+    diff --brief --recursive --no-dereference --new-file --no-ignore-file-name-case $1 $2
+}
