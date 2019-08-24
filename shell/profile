@@ -101,7 +101,7 @@ function kcontainer_status {
 alias gs='git status'
 alias gsp='git add . && git stash && git pull --rebase && git stash pop'
 alias git_ls_commit_files='git diff-tree --no-commit-id --name-only -r'
-alias git_submodule_update='git submodule update --recursive'
+alias git_submodule_update='git submodule update --recursive --remote'
 
 #####################
 # mac nfs setup

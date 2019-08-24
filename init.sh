@@ -40,9 +40,6 @@ ln -s $HOME/.dotfiles/.vim $HOME/.vim
 ln -s $HOME/.dotfiles/.vimrc $HOME/.vimrc
 ln -s $HOME/.dotfiles/.tmux.conf $HOME/.tmux.conf
 
-# download tmux theme
-git clone https://github.com/jimeh/tmux-themepack.git $HOME/.dotfiles/3rdparty/tmux-themepack
-
 # install the preferred macOS utilities and devtools
 if [[ "$OSTYPE" == "darwin"* ]]; then
     brew install ansible node sbt scala vim git \
