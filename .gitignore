@@ -10,3 +10,5 @@ scripts/
 
 # Vim plug files
 .vim/plugged
+
+.*rc
