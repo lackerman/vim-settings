@@ -10,10 +10,6 @@ if [ -f ${BREW_PREFIX}/etc/bash_completion ]; then
   . ${BREW_PREFIX}/etc/bash_completion
 fi
 
-# fzf
-[[ $- == *i* ]] && source "/usr/local/opt/fzf/shell/completion.bash" 2> /dev/null
-source "/usr/local/opt/fzf/shell/key-bindings.bash"
-
 # serverless
 [ -f $HOME/node_modules/tabtab/.completions/serverless.bash ] \
     && . $HOME/node_modules/tabtab/.completions/serverless.bash

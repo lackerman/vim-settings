@@ -7,7 +7,8 @@ source $HOME/.dotfiles/.env
 #####################
 
 export PATH=$PATH:${GOPATH}/bin:$HOME/.dotfiles/scripts
-export EDITOR=vi
+export EDITOR=vim
+export KUBE_EDITOR="vim"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
@@ -21,10 +22,6 @@ alias python=/usr/local/bin/python3
 alias pip=/usr/local/bin/pip3
 
 eval "$(rbenv init -)"
-
-if [[ ! "$PATH" == */usr/local/opt/fzf/bin* ]]; then
-  export PATH="${PATH:+${PATH}:}/usr/local/opt/fzf/bin"
-fi
 
 #####################
 # network utils
@@ -102,6 +99,7 @@ alias gs='git status'
 alias gsp='git add . && git stash && git pull --rebase && git stash pop'
 alias git_ls_commit_files='git diff-tree --no-commit-id --name-only -r'
 alias git_submodule_update='git submodule update --recursive --remote'
+alias git_submodule_clone='git submodule update --init --recursive'
 
 #####################
 # mac nfs setup
