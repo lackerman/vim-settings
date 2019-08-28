@@ -1,10 +1,24 @@
 #!/bin/sh
 
+# Default dotfiles location
+DOTFILES_LOCATION="$HOME/.dotfiles"
+if [ -z "$1" ]; then
+    echo "provide specify your preferred shell: 'zsh' or 'bash'"
+    exit 1
+fi
+if [ -z "$2" ]; then
+    echo "using '${DOTFILES_LOCATION}' as your dotfiles location"
+else
+    DOTFILES_LOCATION="$2"
+fi
+
 setup_bash() {
     tee -a "$HOME/.bashrc" <<EOF
-source \$HOME/.dotfiles/shell/profile
-source \$HOME/.dotfiles/shell/bash/autocomplete
-source \$HOME/.dotfiles/shell/bash/ps1
+export DOTFILES_LOCATION="${DOTFILES_LOCATION}"
+source \${DOTFILES_LOCATION}/shell/profile
+source \${DOTFILES_LOCATION}/shell/bash/autocomplete
+source \${DOTFILES_LOCATION}/shell/bash/history
+source \${DOTFILES_LOCATION}/shell/bash/ps1
 EOF
 }
 
@@ -12,12 +26,12 @@ setup_zsh() {
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
     git clone https://github.com/jocelynmallon/zshmarks.git "${ZSH_CUSTOM}/plugins/zshmarks"
     tee -a "$HOME/.zshrc" <<EOF
-source \$HOME/.dotfiles/shell/profile
-source \$HOME/.dotfiles/shell/zsh/aliases
+export DOTFILES_LOCATION="${DOTFILES_LOCATION}"
+source \${DOTFILES_LOCATION}/shell/profile
+source \${DOTFILES_LOCATION}/shell/zsh/history
+source \${DOTFILES_LOCATION}/shell/zsh/aliases
 EOF
 }
-
-[ -z "$1" ] && echo "provide specify your preferred shell: 'zsh' or 'bash'" && exit 1
 
 # Remove any previous config
 [ -f "$HOME/.profile" ]     && rm "$HOME/.profile"
@@ -36,9 +50,9 @@ case $1 in
 esac
 
 # link vim & tmux config
-ln -s "$HOME/.dotfiles/.vim" "$HOME/.vim"
-ln -s "$HOME/.dotfiles/.vimrc" "$HOME/.vimrc"
-ln -s "$HOME/.dotfiles/.tmux.conf" "$HOME/.tmux.conf"
+ln -s "${DOTFILES_LOCATION}/.vim" "$HOME/.vim"
+ln -s "${DOTFILES_LOCATION}/.vimrc" "$HOME/.vimrc"
+ln -s "${DOTFILES_LOCATION}/.tmux.conf" "$HOME/.tmux.conf"
 
 # install the preferred macOS utilities and devtools
 if [ "$(uname)" = 'Darwin' ]; then
