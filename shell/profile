@@ -10,8 +10,8 @@ export KUBE_EDITOR="vim"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
-[[ "$OSTYPE" == "linux-gnu" ]] && alias ls='ls --color=auto'
-[[ "$OSTYPE" == "darwin"* ]]   && alias ls='ls -G'
+[ "$(uname)" = 'Linux' ]  && alias ls='ls --color=auto'
+[ "$(uname)" = 'Darwin' ] && alias ls='ls -G'
 
 alias vi=vim
 alias ll='ls -l'
@@ -19,25 +19,21 @@ alias ll='ls -l'
 alias python=/usr/local/bin/python3
 alias pip=/usr/local/bin/pip3
 
-eval "$(rbenv init -)"
+command -v rbenv > /dev/null 2>&1 && eval "$(rbenv init -)"
 
 #####################
 # network utils
 #####################
 
-function whoislistening {
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        sudo lsof -i -n -P | grep LISTEN
-    else
-        sudo netstat -atun
-    fi
+whoislistening() {
+    sudo lsof -i -n -P | grep LISTEN
 }
 
-function ipinfo {
+ipinfo() {
     public_ip="$(curl -sL http://ipecho.net/plain)"
-	raw_info="$(curl -s https://ipapi.co/${public_ip}/json | \
+	raw_info="$(curl -s "https://ipapi.co/${public_ip}/json" | \
         jq -r '[.ip, .org, .city, .region, .country_name, .country] | @csv')"
-    echo ${raw_info//\"}
+    echo "${raw_info//\"}"
 }
 
 #####################
@@ -51,13 +47,13 @@ alias drm='docker rm'
 alias drma='docker rm $(docker ps -a -q)'
 alias dim='docker images'
 alias dimr='docker rmi'
-function dimrn {
+dimrn() {
     docker images -a | grep "$1" | awk '{print $3}' | xargs docker rmi -f
 }
 
-function docker_gitlab_login {
-    [[ -z "$1" ]] && echo 'provide the TOKEN file as a parameter' && exit 1
-    docker login -u $USER registry.gitlab.com --password-stdin < $1
+docker_gitlab_login() {
+    [ -z "$1" ] && echo 'provide the TOKEN file as a parameter' && exit 1
+    docker login -u "$USER" registry.gitlab.com --password-stdin < "$1"
 }
 
 #####################
@@ -72,20 +68,20 @@ alias kw='kubectl get pods -w'
 alias kwa='watch kubectl get all'
 alias kpodip='kubectl get pods -o wide'
 
-function kpa {
-    kubectl get pods -l name=$1 -o jsonpath='{.items[0].metadata.name}'
+kpa() {
+    kubectl get pods -l name="$1" -o jsonpath='{.items[0].metadata.name}'
 }
-function kcssh {
-    kubectl exec -it $@ -- /bin/sh
+kcssh() {
+    kubectl exec -it "$@" -- /bin/sh
 }
-function kssh {
-    kubectl exec -it $@ --container app -- /bin/sh
+kssh() {
+    kubectl exec -it "$@" --container app -- /bin/sh
 }
-function kctx {
+kctx() {
 	kubectl config current-context
 }
-function kcontainer_status {
-    kubectl get -o json $@ | \
+kcontainer_status() {
+    kubectl get -o json "$@" | \
     jq --compact-output '[.status.containerStatuses[], .status.initContainerStatuses[]] | .[] | { name: .name, state: .state | keys | .[], info: .state[].reason }'
 }
 
@@ -105,12 +101,12 @@ alias git_submodule_clone='git submodule update --init --recursive'
 
 # https://serverfault.com/questions/716350/mount-nfs-volume-on-ubuntu-linux-server-from-macos-client
 
-[[ "$OSTYPE" == "darwin"* ]] && alias nfs_reload="sudo vi /etc/exports && sudo exportfs -vra"
+[ "$(uname)" = 'Linux' ] && alias nfs_reload="sudo vi /etc/exports && sudo exportfs -vra"
 
 #####################
 # general utils
 #####################
 
-function dirdiff {
-    diff --brief --recursive --no-dereference --new-file --no-ignore-file-name-case $1 $2
+dirdiff() {
+    diff --brief --recursive --no-dereference --new-file --no-ignore-file-name-case "$1" "$2"
 }

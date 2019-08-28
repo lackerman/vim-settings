@@ -14,5 +14,5 @@ setopt HIST_SAVE_NO_DUPS
 setopt HIST_BEEP
 
 bash_history_to_zsh_history() {
-    awk '{print " :0:;"$1}' "$HOME/.bash_history" > "$HOME/.zsh_history"
+    perl -0777 -pe 's/^#(\d+)\n(.*?)$/: \1:0;\2/gm' "$HOME/.bash_history" > "$HOME/.zsh_history"
 }
