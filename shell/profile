@@ -80,8 +80,8 @@ kssh() {
 kctx() {
 	kubectl config current-context
 }
-kcontainer_status() {
-    kubectl get -o json "$@" | \
+kstat() {
+    kubectl get -o json pod "$@" | \
     jq --compact-output '[.status.containerStatuses[], .status.initContainerStatuses[]] | .[] | { name: .name, state: .state | keys | .[], info: .state[].reason }'
 }
 
@@ -89,7 +89,7 @@ kcontainer_status() {
 # git aliases & utils
 #####################
 
-alias gs='git status'
+alias gs='git status -uno'
 alias gsp='git add . && git stash && git pull --rebase && git stash pop'
 alias git_ls_commit_files='git diff-tree --no-commit-id --name-only -r'
 alias git_submodule_update='git submodule update --recursive --remote'

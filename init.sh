@@ -23,10 +23,20 @@ EOF
 }
 
 setup_zsh() {
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-    git clone https://github.com/jocelynmallon/zshmarks.git "${ZSH_CUSTOM}/plugins/zshmarks"
+    export ZDOTDIR="$DOTFILES_LOCATION/.zprezto"
+    git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
+
+    setopt EXTENDED_GLOB
+    for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
+    ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
+    done
+
     tee -a "$HOME/.zshrc" <<EOF
-export DOTFILES_LOCATION="${DOTFILES_LOCATION}"
+export ZDOTDIR="${ZDOTDIR}"
+
+# Setup the .zprezto locations
+source "${ZDOTDIR}/.zprezto/init.zsh"
+
 source \${DOTFILES_LOCATION}/shell/profile
 source \${DOTFILES_LOCATION}/shell/zsh/history
 source \${DOTFILES_LOCATION}/shell/zsh/aliases
