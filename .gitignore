@@ -12,3 +12,6 @@ scripts/
 .vim/plugged
 
 .*rc
+
+# Ignore the .zprezto repo
+.zprezto

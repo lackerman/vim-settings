@@ -1,0 +1,9 @@
+#!/bin/bash
+
+tee -a "$HOME/.bashrc" <<EOF
+export DOTFILES_LOCATION="${DOTFILES_LOCATION}"
+source \${DOTFILES_LOCATION}/shell/profile
+source \${DOTFILES_LOCATION}/shell/bash/autocomplete
+source \${DOTFILES_LOCATION}/shell/bash/history
+source \${DOTFILES_LOCATION}/shell/bash/ps1
+EOF

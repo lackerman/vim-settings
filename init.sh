@@ -12,50 +12,19 @@ else
     DOTFILES_LOCATION="$2"
 fi
 
-setup_bash() {
-    tee -a "$HOME/.bashrc" <<EOF
-export DOTFILES_LOCATION="${DOTFILES_LOCATION}"
-source \${DOTFILES_LOCATION}/shell/profile
-source \${DOTFILES_LOCATION}/shell/bash/autocomplete
-source \${DOTFILES_LOCATION}/shell/bash/history
-source \${DOTFILES_LOCATION}/shell/bash/ps1
-EOF
-}
-
-setup_zsh() {
-    export ZDOTDIR="$DOTFILES_LOCATION/.zprezto"
-    git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
-
-    setopt EXTENDED_GLOB
-    for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
-    ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
-    done
-
-    tee -a "$HOME/.zshrc" <<EOF
-export ZDOTDIR="${ZDOTDIR}"
-
-# Setup the .zprezto locations
-source "${ZDOTDIR}/.zprezto/init.zsh"
-
-source \${DOTFILES_LOCATION}/shell/profile
-source \${DOTFILES_LOCATION}/shell/zsh/history
-source \${DOTFILES_LOCATION}/shell/zsh/aliases
-EOF
-}
-
 # Remove any previous config
 [ -f "$HOME/.profile" ]     && rm "$HOME/.profile"
 [ -f "$HOME/.bashrc" ]      && rm "$HOME/.bashrc"
 [ -f "$HOME/.zshrc" ]       && rm "$HOME/.zshrc"
 [ -f "$HOME/.vimrc" ]       && rm "$HOME/.vimrc"
-[ -f "$HOME/.tmux".conf ]   && rm "$HOME/.tmux.conf"
+[ -f "$HOME/.tmux.conf" ]   && rm "$HOME/.tmux.conf"
 [ -f "$HOME/.vim" ]         && rm -r "$HOME/.vim"
 
 case $1 in
 "bash")
-    setup_bash;;
+    bash $DOTFILES_LOCATION/shell/zsh/init;;
 "zsh")
-    setup_zsh;;
+    zsh $DOTFILES_LOCATION/shell/zsh/init;;
 *)
 esac
 
