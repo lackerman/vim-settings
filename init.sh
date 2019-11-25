@@ -35,10 +35,10 @@ ln -s "${DOTFILES_LOCATION}/.tmux.conf" "$HOME/.tmux.conf"
 
 # install the preferred macOS utilities and devtools
 if [ "$(uname)" = 'Darwin' ]; then
-    brew install ansible node sbt scala vim git \
-        shellcheck kubernetes-cli maven go ruby rbenv \
-        jq openssl watch bash-completion kubectx p7zip \
-        htop rename fzf tree the_silver_searcher tmux nmap
+    brew install ansible pyenv rbenv node sbt scala vim git \
+        shellcheck kubernetes-cli kmaven go jq openssl \
+        watch bash-completion p7zip htop rename fzf tree \
+        the_silver_searcher tmux nmap
 
     brew tap beeftornado/rmtree
 fi

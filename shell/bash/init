@@ -1,5 +1,7 @@
 #!/bin/bash
 
+DOTFILES_LOCATION=${DOTFILES_LOCATION:-$HOME/.dotfiles}
+
 tee -a "$HOME/.bashrc" <<EOF
 export DOTFILES_LOCATION="${DOTFILES_LOCATION}"
 source \${DOTFILES_LOCATION}/shell/profile
