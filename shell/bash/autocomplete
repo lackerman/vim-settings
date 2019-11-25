@@ -22,3 +22,7 @@ fi
        && source ${BREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc
 [ -f ${BREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc ] \
        && source ${BREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc
+
+# Setup kubectl completion and completions for the alias 'k'
+source <(kubectl completion bash | sed 's/kubectl/k/g')
+source <(kind completion bash)
