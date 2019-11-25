@@ -11,9 +11,7 @@ bold='\[\e[1m\]'
 
 # 256 Colours
 # > Foreground Colours
-dgfg='\[\e[38;5;239m\]'         # Dark Grey
-lbfg='\[\e[38;5;32m\]'          # Light blue
-ofg='\[\e[38;5;173m\]'          # Orange
+lbfg='\[\e[38;5;39m\]'          # Light blue
 # > Background Colours
 dgbg='\[\e[48;5;239m\]'         # Dark Grey
 
@@ -36,7 +34,7 @@ r_dg='\[\e[31;100m\]'       # fg: red        bg: dark grey
 end='\[\e[0m\]'
 
 function context {
-    [[ $(kubectl config current-context 2> /dev/null) != "" ]] && echo " ➡ $(kubectl config current-context) ⎈" || echo ""
+    [[ $(kubectl config current-context 2> /dev/null) != "" ]] && echo " ⎈  $(kubectl config current-context)" || echo ""
 }
 function uncommitted_changes {
        [[ "$(git status 2> /dev/null)" =~ working\ tree\ clean ]] && echo "✔" || echo "✘"
@@ -54,4 +52,4 @@ function ctelepresence {
     [ -n "$TELEPRESENCE_ROOT" ] && echo "${rfg}☣ TELEPRESENCE ☣${end}" || echo ""
 }
 
-export PS1="${ofg}\u@\h${end}${lbfg}${bold}\$(context)${end} [\A] ${bold}${gfg}\W${end}\$(cbranch)${gfg} $ ${end}"
+export PS1="\u@\h${lbfg}${bold}\$(context)${end} ${bold}${gfg}\W${end}\$(cbranch)${gfg} $ ${end}"
