@@ -4,20 +4,25 @@
 # environment conf
 #####################
 
-export PATH=$PATH:${GOPATH}/bin:$HOME/.dotfiles/scripts
+PATH="$(pyenv root)/shims:$PATH:$(go env GOPATH)/bin:${KREW_ROOT:-$HOME/.krew}/bin:$HOME/.dotfiles/scripts"
+export PATH
+
 export EDITOR=vim
 export KUBE_EDITOR="vim"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
-[ "$(uname)" = 'Linux' ]  && alias ls='ls --color=auto'
-[ "$(uname)" = 'Darwin' ] && alias ls='ls -G'
+if [ "$(uname)" = 'Linux' ]; then
+    alias ls='ls --color=auto'
+
+    # https://serverfault.com/questions/716350/mount-nfs-volume-on-ubuntu-linux-server-from-macos-client
+    alias nfs_reload="sudo vi /etc/exports && sudo exportfs -vra"
+else
+    alias ls='ls -G'
+fi
 
 alias vi=vim
 alias ll='ls -l'
-
-alias python=/usr/local/bin/python3
-alias pip=/usr/local/bin/pip3
 
 command -v rbenv > /dev/null 2>&1 && eval "$(rbenv init -)"
 
@@ -40,13 +45,20 @@ ipinfo() {
 # docker utilities
 #####################
 
-alias dang='docker rmi $(docker images --quiet --filter "dangling=true")'
 alias dps='docker ps -a'
 alias dk='docker kill'
 alias drm='docker rm'
-alias drma='docker rm $(docker ps -a -q)'
 alias dim='docker images'
 alias dimr='docker rmi'
+
+drma() {
+    docker rm $(docker ps -a -q)
+}
+
+dang() {
+    docker rmi $(docker images --quiet --filter "dangling=true")
+}
+
 dimrn() {
     docker images -a | grep "$1" | awk '{print $3}' | xargs docker rmi -f
 }
@@ -60,14 +72,15 @@ docker_gitlab_login() {
 # kubectl utils
 #####################
 
-alias ka='kubectl'
+alias k=kubectl
 alias ka='kubectl get all'
 alias kd='kubectl delete'
 alias kl='kubectl logs'
 alias kw='kubectl get pods -w'
-alias kwa='watch kubectl get all'
-alias kpodip='kubectl get pods -o wide'
-
+alias klc='kubectl config get-contexts'
+kcc() {
+    kubectl config use-context "$(klc | fzf -e | sed "s/^..//")"
+}
 kpa() {
     kubectl get pods -l name="$1" -o jsonpath='{.items[0].metadata.name}'
 }
@@ -75,10 +88,7 @@ kcssh() {
     kubectl exec -it "$@" -- /bin/sh
 }
 kssh() {
-    kubectl exec -it "$@" --container app -- /bin/sh
-}
-kctx() {
-	kubectl config current-context
+    kubectl exec -it "$@" -c app -- /bin/sh
 }
 kstat() {
     kubectl get -o json pod "$@" | \
@@ -94,14 +104,6 @@ alias gsp='git add . && git stash && git pull --rebase && git stash pop'
 alias git_ls_commit_files='git diff-tree --no-commit-id --name-only -r'
 alias git_submodule_update='git submodule update --recursive --remote'
 alias git_submodule_clone='git submodule update --init --recursive'
-
-#####################
-# mac nfs setup
-#####################
-
-# https://serverfault.com/questions/716350/mount-nfs-volume-on-ubuntu-linux-server-from-macos-client
-
-[ "$(uname)" = 'Linux' ] && alias nfs_reload="sudo vi /etc/exports && sudo exportfs -vra"
 
 #####################
 # general utils
