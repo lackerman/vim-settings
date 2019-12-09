@@ -4,9 +4,14 @@
 # environment conf
 #####################
 
-PATH="$(pyenv root)/shims:$PATH:$(go env GOPATH)/bin:${KREW_ROOT:-$HOME/.krew}/bin:$HOME/.dotfiles/scripts"
-export PATH
+PATH_PREFIX=""
+command -v pyenv > /dev/null 2>&1 && PATH_PREFIX="$PATH_PREFIX:$(pyenv root)/shims"
 
+PATH_SUFFIX="${KREW_ROOT:-$HOME/.krew}/bin:$HOME/.dotfiles/scripts"
+command -v go > /dev/null 2>&1 && PATH_PREFIX="$PATH_SUFFIX:$(go env GOPATH)/bin"
+command -v rbenv > /dev/null 2>&1 && eval "$(rbenv init -)"
+
+export PATH="$PATH_PREFIX:$PATH:$PATH_SUFFIX"
 export EDITOR=vim
 export KUBE_EDITOR="vim"
 export LC_ALL=en_US.UTF-8
@@ -23,8 +28,6 @@ fi
 
 alias vi=vim
 alias ll='ls -l'
-
-command -v rbenv > /dev/null 2>&1 && eval "$(rbenv init -)"
 
 #####################
 # network utils

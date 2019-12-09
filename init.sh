@@ -45,7 +45,7 @@ if [ "$(uname)" = 'Darwin' ]; then
 fi
 
 # add the specific gitconfig config if does not exist
-grep "\[filter" "$HOME/.gitconfig" || tee -a "$HOME/.gitconfig" <<EOF
+tee -a "$HOME/.gitconfig" <<EOF
 [filter "lfs"]
 	clean = git lfs clean %f
 	smudge = git lfs smudge %f
