@@ -13,6 +13,7 @@ else
 fi
 
 # Remove any previous config
+[ -f "$HOME/.gitconfig" ]   && rm "$HOME/.gitconfig"
 [ -f "$HOME/.profile" ]     && rm "$HOME/.profile"
 [ -f "$HOME/.bashrc" ]      && rm "$HOME/.bashrc"
 [ -f "$HOME/.zshrc" ]       && rm "$HOME/.zshrc"
