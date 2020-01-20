@@ -6,9 +6,12 @@
 
 export HISTSIZE=10000 # increase history size (default is 500)
 
-HISTTIMEFORMAT='%F %T '
-HISTFILESIZE=-1
-HISTSIZE=-1
+# These seems to remove all bash history on Linux
+if [ "$(uname)" = 'Darwin' ]; then
+	HISTTIMEFORMAT='%F %T '
+	HISTFILESIZE=-1
+	HISTSIZE=-1
+fi
 HISTCONTROL=ignoredups
 
 # Custom history configuration

@@ -4,14 +4,13 @@
 # environment conf
 #####################
 
-PATH_PREFIX=""
-command -v pyenv > /dev/null 2>&1 && PATH_PREFIX="$PATH_PREFIX:$(pyenv root)/shims"
-
-PATH_SUFFIX="${KREW_ROOT:-$HOME/.krew}/bin:$HOME/.dotfiles/scripts"
-command -v go > /dev/null 2>&1 && PATH_PREFIX="$PATH_SUFFIX:$(go env GOPATH)/bin"
 command -v rbenv > /dev/null 2>&1 && eval "$(rbenv init -)"
+command -v pyenv > /dev/null 2>&1 && MY_PATH_PREFIX="$(pyenv root)/shims"
 
-export PATH="$PATH_PREFIX:$PATH:$PATH_SUFFIX"
+MY_PATH_SUFFIX="${KREW_ROOT:-$HOME/.krew}/bin:$HOME/.dotfiles/scripts"
+command -v go > /dev/null 2>&1 && MY_PATH_PREFIX="$PATH_SUFFIX:$(go env GOPATH)/bin"
+
+export PATH="$MY_PATH_PREFIX:$PATH:$MY_PATH_SUFFIX"
 export EDITOR=vim
 export KUBE_EDITOR="vim"
 export LC_ALL=en_US.UTF-8
