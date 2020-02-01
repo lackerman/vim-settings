@@ -75,7 +75,7 @@ docker_gitlab_login() {
 #####################
 
 alias k=kubectl
-alias ka='kubectl get all'
+alias ka='kubectl get all,ingress,secrets,cm'
 alias kd='kubectl delete'
 alias kl='kubectl logs'
 alias kw='kubectl get pods -w'
@@ -111,6 +111,6 @@ alias git_submodule_clone='git submodule update --init --recursive'
 # general utils
 #####################
 
-dirdiff() {
+diffdirs() {
     diff --brief --recursive --no-dereference --new-file --no-ignore-file-name-case "$1" "$2"
 }
