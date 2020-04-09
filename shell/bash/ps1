@@ -11,45 +11,45 @@ bold='\[\e[1m\]'
 
 # 256 Colours
 # > Foreground Colours
-lbfg='\[\e[38;5;39m\]'          # Light blue
+lbfg='\[\e[38;5;39m\]'     # Light blue
 # > Background Colours
-dgbg='\[\e[48;5;239m\]'         # Dark Grey
+dgbg='\[\e[48;5;239m\]'    # Dark Grey
 
 # Normal colours
 # > Foreground Colours
-wfg='\[\e[97m\]'                # white
-gfg='\[\e[92m\]'                # green
-rfg='\[\e[91m\]'                # red
+wfg='\[\e[97m\]'           # white
+gfg='\[\e[92m\]'           # green
+rfg='\[\e[91m\]'           # red
 # > Background Colours
-rbg='\[\e[41m\]'                # red
+rbg='\[\e[41m\]'           # red
 
 # Normal colours: With fg+bg combined
-bfg_wbg='\[\e[1;34;107m\]'  # fg: blue       bg: white
-dg_w='\[\e[90;107m\]'       # fg: dark grey  bg: white
-r_w='\[\e[31;107m\]'        # fg: red        bg: white
-lg_dg='\[\e[37;100m\]'      # fg: light grey bg: dark grey
-r_dg='\[\e[31;100m\]'       # fg: red        bg: dark grey
+bfg_wbg='\[\e[1;34;107m\]' # fg: blue       bg: white
+dg_w='\[\e[90;107m\]'      # fg: dark grey  bg: white
+r_w='\[\e[31;107m\]'       # fg: red        bg: white
+lg_dg='\[\e[37;100m\]'     # fg: light grey bg: dark grey
+r_dg='\[\e[31;100m\]'      # fg: red        bg: dark grey
 
 # Stop formatting
 end='\[\e[0m\]'
 
-function context {
-    [[ $(kubectl config current-context 2> /dev/null) != "" ]] && echo " ⎈  $(kubectl config current-context)" || echo ""
+context() {
+    [[ $(kubectl config current-context 2>/dev/null) != "" ]] && echo " ⎈  $(kubectl config current-context)" || echo ""
 }
-function uncommitted_changes {
-       [[ "$(git status 2> /dev/null)" =~ working\ tree\ clean ]] && echo "✔" || echo "✘"
+uncommitted_changes() {
+   [[ "$(git status 2>/dev/null)" =~ working\ tree\ clean ]] && echo "✔" || echo "✘"
 }
-function git_branch_nicename {
-    echo $(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
+cbranch() {
+    if [[ "$(pwd)" =~ Documents/main ]]; then
+        echo ""
+    elif [[ -d .git ]]; then
+        echo " ($(__git_ps1 '%s') $(uncommitted_changes))"
+    else
+        echo ""
+    fi
 }
-function cbranch {
-       [[ -d .git ]] && echo " ($(git_branch_nicename) $(uncommitted_changes))" || echo ""
-}
-function chost {
-    $([ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]) && echo "${rfg}☣ \h ☣${end}" || echo "${dgf} \h ${end}"
-}
-function ctelepresence {
-    [ -n "$TELEPRESENCE_ROOT" ] && echo "${rfg}☣ TELEPRESENCE ☣${end}" || echo ""
+chostname() {
+    echo "@$(hostname)"
 }
 
-export PS1="\u@\h${lbfg}${bold}\$(context)${end} ${bold}${gfg}\W${end}\$(cbranch)${gfg} $ ${end}"
+export PS1="\u\$(chostname)${lbfg}${bold}\$(context)${end} ${bold}${gfg}\W${end}\$(cbranch)${gfg} $ ${end}"

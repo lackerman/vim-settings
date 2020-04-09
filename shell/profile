@@ -75,7 +75,7 @@ docker_gitlab_login() {
 #####################
 
 alias k=kubectl
-alias ka='kubectl get all,ingress,secrets,cm'
+alias ka='kubectl get all,ingress,sa,secrets,cm,roles,rolebindings'
 alias kd='kubectl delete'
 alias kl='kubectl logs'
 alias kw='kubectl get pods -w'

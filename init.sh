@@ -23,9 +23,9 @@ fi
 
 case $1 in
 "bash")
-    bash $DOTFILES_LOCATION/shell/bash/init;;
+    bash "$DOTFILES_LOCATION/shell/bash/init";;
 "zsh")
-    zsh $DOTFILES_LOCATION/shell/zsh/init;;
+    zsh "$DOTFILES_LOCATION/shell/zsh/init";;
 *)
 esac
 
